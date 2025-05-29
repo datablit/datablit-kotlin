@@ -1,5 +1,6 @@
 package com.datablit.analytics
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
@@ -8,6 +9,7 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
+import androidx.annotation.RequiresPermission
 import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -185,6 +187,7 @@ class Analytics(val writeKey: String, val context: Context, block: Analytics.() 
     }
 
 
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     @SuppressLint("HardwareIds")
     private fun setEventContext() {
         val packageManager = context.packageManager
