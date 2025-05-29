@@ -36,6 +36,13 @@ android {
     }
 }
 
+/* local publish
+Steps:
+1. comment mavenPublishing block -> this is used for publishing to maven central and uncomment publishing
+2. run ./gradlew publishToMavenLocal
+3. also uncomment  //mavenLocal() from root settings.gradle.kts
+4. once done revert all these
+ */
 //publishing {
 //    publications {
 //        create<MavenPublication>("release") {
@@ -45,41 +52,7 @@ android {
 //
 //            groupId = "com.datablit.analytics"
 //            artifactId = "kotlin"
-//            version = "1.0.0"
-//        }
-//    }
-//}
-
-//publishing {
-//    publications {
-//        create<MavenPublication>("mavenJava") {
-//            pom {
-//                name = "analytics"
-//                description = "kotlin analytics library to track events"
-//                url = "https://github.com/datablit/analytics-kotlin"
-////                properties = mapOf(
-////                    "myProp" to "value",
-////                    "prop.with.dots" to "anotherValue"
-////                )
-//                licenses {
-//                    license {
-//                        name = "The Apache License, Version 2.0"
-//                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-//                    }
-//                }
-//                developers {
-//                    developer {
-//                        id = "datablit"
-//                        name = "datablit"
-//                        email = "admin@datablit.com"
-//                    }
-//                }
-//                scm {
-//                    connection = "scm:git:git://example.com/my-library.git"
-//                    developerConnection = "scm:git:ssh://example.com/my-library.git"
-//                    url = "https://github.com/datablit/analytics-kotlin"
-//                }
-//            }
+//            version = "1.0.1"
 //        }
 //    }
 //}
@@ -96,14 +69,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-common-java8:2.6.1")
 }
 
-// <module directory>/build.gradle.kts
-
+// central publish cmd: ./gradlew publishAllPublicationsToMavenCentralRepository
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
     signAllPublications()
 
-    coordinates(group.toString(), "analytics", version.toString())
+    coordinates("com.datablit.analytics", "kotlin", "1.0.1")
 
     pom {
         name = "Analytics library"

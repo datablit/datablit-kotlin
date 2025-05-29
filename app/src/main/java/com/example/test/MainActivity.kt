@@ -74,7 +74,7 @@ fun MainScreen(analytics: Analytics) {
                 val traits: Map<String, Any> = mapOf(
                     "email" to "deepak@gmail.com"
                 )
-                analytics.identify("1234", traits)
+                analytics.identify("android_1234", traits)
             }) {
                 Text(text = "identify")
             }

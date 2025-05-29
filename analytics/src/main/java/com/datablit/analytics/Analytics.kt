@@ -27,7 +27,7 @@ import kotlin.concurrent.thread
 import androidx.lifecycle.ProcessLifecycleOwner
 
 enum class EventType {
-    INVALID, IDENTIFY, TRACK
+    invalid, identify, track
 }
 
 data class Event(
@@ -77,13 +77,13 @@ class Analytics(val writeKey: String, val context: Context, block: Analytics.() 
     fun identify(userId: String, traits: Map<String, Any> = emptyMap()) {
         this.userId = userId
         saveUserId(userId)
-        val event = getDefaultEvent().copy(type = EventType.IDENTIFY, traits = traits)
+        val event = getDefaultEvent().copy(type = EventType.identify, traits = traits)
         addInQueue(event)
     }
 
     fun track(eventName: String, properties: Map<String, Any> = emptyMap()) {
         val event = getDefaultEvent().copy(
-            type = EventType.TRACK,
+            type = EventType.track,
             event = eventName,
             properties = properties
         )
@@ -110,7 +110,7 @@ class Analytics(val writeKey: String, val context: Context, block: Analytics.() 
             anonymousId = anonymousId,
             userId = userId,
             messageId = UUID.randomUUID().toString(),
-            type = EventType.INVALID,
+            type = EventType.invalid,
             context = eventContext ?: emptyMap(),
             originalTimestamp = Instant.now().toString(),
         )
