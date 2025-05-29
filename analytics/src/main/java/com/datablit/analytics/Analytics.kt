@@ -223,12 +223,12 @@ class Analytics(val writeKey: String, val context: Context, block: Analytics.() 
 
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val wifiNetwork =
-            connectivityManager.activeNetworkInfo?.type == ConnectivityManager.TYPE_WIFI
-        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        val bluetoothEnabled = bluetoothAdapter != null && bluetoothAdapter.isEnabled
-        val cellularNetwork =
-            connectivityManager.activeNetworkInfo?.type == ConnectivityManager.TYPE_MOBILE
+//        val wifiNetwork =
+//            connectivityManager.activeNetworkInfo?.type == ConnectivityManager.TYPE_WIFI
+//        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+//        val bluetoothEnabled = bluetoothAdapter != null && bluetoothAdapter.isEnabled
+//        val cellularNetwork =
+//            connectivityManager.activeNetworkInfo?.type == ConnectivityManager.TYPE_MOBILE
 
         val locale = Locale.getDefault()
         val userAgent = System.getProperty("http.agent") ?: "Unknown User-Agent"
@@ -261,11 +261,11 @@ class Analytics(val writeKey: String, val context: Context, block: Analytics.() 
                 "height" to screenHeight,
                 "width" to screenWidth
             ),
-            "network" to mapOf(
-                "wifi" to wifiNetwork,
-                "bluetooth" to bluetoothEnabled,
-                "cellular" to cellularNetwork
-            ),
+//            "network" to mapOf(
+//                "wifi" to wifiNetwork,
+//                "bluetooth" to bluetoothEnabled,
+//                "cellular" to cellularNetwork
+//            ),
             "locale" to locale,
             "userAgent" to userAgent,
             "timezone" to timeZone
