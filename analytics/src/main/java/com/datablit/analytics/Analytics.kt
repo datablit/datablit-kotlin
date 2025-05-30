@@ -115,8 +115,11 @@ class Analytics(val writeKey: String, val context: Context, block: Analytics.() 
             originalTimestamp = Instant.now().toString(),
         )
     }
-
     private fun addInQueue(event: Event) {
+        if (queue.size > 100) { // added max queue size check, otherwise backend failure will increase query size, so
+            queue.clear()
+            return
+        }
         synchronized(queue) {
             queue.add(event)
             saveQueue()
