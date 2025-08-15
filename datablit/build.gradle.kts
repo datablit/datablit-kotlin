@@ -75,7 +75,7 @@ mavenPublishing {
 
     signAllPublications()
 
-    coordinates("com.datablit", "kotlin", "1.0.0")
+    coordinates("com.datablit", "kotlin", "1.0.1")
 
     pom {
         name = "Analytics library"
