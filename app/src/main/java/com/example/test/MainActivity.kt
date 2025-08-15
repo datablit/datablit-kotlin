@@ -8,14 +8,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.example.test.ui.theme.TestTheme
 //import com.segment.analytics.kotlin.android.Analytics
 //import com.segment.analytics.kotlin.core.*
 
-import com.datablit.analytics.Analytics
+import com.datablit.Datablit
 
 class MainActivity : ComponentActivity() {
-    private lateinit var analytics: Analytics
+    private lateinit var datablit: Datablit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,25 +29,28 @@ class MainActivity : ComponentActivity() {
 //            collectDeviceId = true
 //            useLifecycleObserver = true
 //        }
-        analytics = Analytics("01JSWDEZYM0E19ZF3RMHS75PB1L287079", applicationContext) {
+        datablit = Datablit("dL01K2NXKB74QVFY8XJVMCJ9ACM0", applicationContext) {
             endpoint =
-                "https://4ce5-2401-4900-1c5d-50a2-94f6-82e4-5886-c3b1.ngrok-free.app/v1/batch"
+                "https://staging-event.datablit.com/v1/batch"
             flushAt = 1
             flushInterval = 10000
             trackApplicationLifecycleEvents = true
             enableDebugLogs = true
+            apiBaseURL = "https://staging-console.datablit.com"
         }
         setContent {
             TestTheme {
-                MainScreen(analytics)
+                MainScreen(datablit)
             }
         }
     }
 }
 
 @Composable
-fun MainScreen(analytics: Analytics) {
+fun MainScreen(datablit: Datablit) {
     var showSnackbar by remember { mutableStateOf(false) }
+    var ruleResult by remember { mutableStateOf<String?>(null) }
+    var variantResult by remember { mutableStateOf<String?>(null) }
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
@@ -65,7 +69,7 @@ fun MainScreen(analytics: Analytics) {
                     "productId" to 123,
                     "productName" to "Striped trousers"
                 )
-                analytics.track("View Product", productDetails)
+                datablit.track("View Product", productDetails)
             }) {
                 Text(text = "Send event")
             }
@@ -74,9 +78,48 @@ fun MainScreen(analytics: Analytics) {
                 val traits: Map<String, Any> = mapOf(
                     "email" to "deepak@gmail.com"
                 )
-                analytics.identify("android_1234", traits)
+                datablit.identify("android_1234", traits)
             }) {
                 Text(text = "identify")
+            }
+            
+            Button(onClick = {
+                datablit.rule.evalRule(
+                    key = "test_rule",
+                    userId = "android_1234",
+                    params = mapOf("os_name" to "android")
+                ) { result ->
+                    result.onSuccess { response ->
+                        ruleResult = "Rule result: ${response.result}"
+                    }.onFailure { error ->
+                        ruleResult = "Error: ${error.message}"
+                    }
+                }
+            }) {
+                Text(text = "Evaluate Rule")
+            }
+            
+            ruleResult?.let { result ->
+                Text(text = result, modifier = Modifier.padding(top = 16.dp))
+            }
+            
+            Button(onClick = {
+                datablit.experiment.getVariant(
+                    expId = "01K2QM64F1141FFJNACB6WY132",
+                    entityId = "android_12"
+                ) { result ->
+                    result.onSuccess { response ->
+                        variantResult = "Variant: ${response.variant}"
+                    }.onFailure { error ->
+                        variantResult = "Error: ${error.message}"
+                    }
+                }
+            }) {
+                Text(text = "Get Experiment Variant")
+            }
+            
+            variantResult?.let { result ->
+                Text(text = result, modifier = Modifier.padding(top = 16.dp))
             }
         }
     }

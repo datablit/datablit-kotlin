@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.datablit.analytics"
+    namespace = "com.datablit"
     compileSdk = 35
 
     defaultConfig {
@@ -50,7 +50,7 @@ Steps:
 //                from(components["release"])
 //            }
 //
-//            groupId = "com.datablit.analytics"
+//            groupId = "com.datablit"
 //            artifactId = "kotlin"
 //            version = "1.0.1"
 //        }
@@ -75,7 +75,7 @@ mavenPublishing {
 
     signAllPublications()
 
-    coordinates("com.datablit.analytics", "kotlin", "1.0.1")
+    coordinates("com.datablit", "kotlin", "1.0.0")
 
     pom {
         name = "Analytics library"

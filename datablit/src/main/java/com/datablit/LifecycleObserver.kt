@@ -1,4 +1,4 @@
-package com.datablit.analytics
+package com.datablit
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -10,13 +10,16 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import java.util.concurrent.atomic.AtomicBoolean
 
-class LifecycleObserver(val analytics: Analytics, val context: Context) : DefaultLifecycleObserver {
+/**
+ * Lifecycle observer for tracking application lifecycle events
+ */
+class LifecycleObserver(val datablit: Datablit, val context: Context) : DefaultLifecycleObserver {
     private val firstLaunch = AtomicBoolean(false)
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences(
-            "AnalyticsPrefs",
+            "DatablitPrefs",
             Context.MODE_PRIVATE
-        ) // same as analytics class
+        ) // same as datablit class
 
     val packageManager: PackageManager? = context.packageManager
     val packageName: String? = context.packageName
@@ -35,7 +38,7 @@ class LifecycleObserver(val analytics: Analytics, val context: Context) : Defaul
 
         val pair = getVersionAndBuild() // previous version and build pair
         if (pair.first == null && pair.second == null) { // app installed
-            analytics.track(
+            datablit.track(
                 "Application Installed", mapOf(
                     "version" to curVersion,
                     "build" to curBuild
@@ -43,7 +46,7 @@ class LifecycleObserver(val analytics: Analytics, val context: Context) : Defaul
             )
             saveVersionAndBuild(curVersion, curBuild)
         } else if (curVersion != pair.first) { // app updated
-            analytics.track(
+            datablit.track(
                 "Application Updated", mapOf(
                     "version" to curVersion,
                     "build" to curBuild,
@@ -59,7 +62,7 @@ class LifecycleObserver(val analytics: Analytics, val context: Context) : Defaul
         val properties = mapOf(
             "from_background" to !firstLaunch.getAndSet(false)
         )
-        analytics.track("Application Opened", properties)
+        datablit.track("Application Opened", properties)
     }
 
     override fun onResume(owner: LifecycleOwner) {
@@ -72,7 +75,7 @@ class LifecycleObserver(val analytics: Analytics, val context: Context) : Defaul
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
-        analytics.track("Application Backgrounded")
+        datablit.track("Application Backgrounded")
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

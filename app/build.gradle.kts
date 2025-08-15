@@ -49,7 +49,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation("com.segment.analytics.kotlin:android:1.19.1")
-    implementation("com.datablit.analytics:kotlin:1.0.1")
+    //implementation("com.datablit:kotlin:1.0.0")
+    implementation(project(":datablit")) // enable for local test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
