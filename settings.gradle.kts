@@ -21,6 +21,6 @@ dependencyResolutionManagement {
 }
 
 
-rootProject.name = "analytics-kotlin"
+rootProject.name = "datablit-kotlin"
 include(":app")
 include(":datablit")

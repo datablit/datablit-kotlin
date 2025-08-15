@@ -81,7 +81,7 @@ mavenPublishing {
         name = "Analytics library"
         description = "datablit analytics library to track events"
         inceptionYear = "2025"
-        url = "https://github.com/datablit/analytics-kotlin"
+        url = "https://github.com/datablit/datablit-kotlin"
         licenses {
             license {
                 name = "The Apache License, Version 2.0"
@@ -97,9 +97,9 @@ mavenPublishing {
             }
         }
         scm {
-            url = "https://github.com/datablit/analytics-kotlin/"
-            connection = "scm:git:git://github.com/datablit/analytics-kotlin.git"
-            developerConnection = "scm:git:ssh://git@github.com/datablit/analytics-kotlin.git"
+            url = "https://github.com/datablit/datablit-kotlin/"
+            connection = "scm:git:git://github.com/datablit/datablit-kotlin.git"
+            developerConnection = "scm:git:ssh://git@github.com/datablit/datablit-kotlin.git"
         }
     }
 }
